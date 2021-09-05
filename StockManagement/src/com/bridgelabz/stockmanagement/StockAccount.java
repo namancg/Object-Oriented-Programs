@@ -7,17 +7,17 @@ public class StockAccount {
 	private static MyLinkedList transactions = new MyLinkedList();
 	public StockAccount() {
 		Stock tempStock = new Stock();
-		tempStock.setStockName("Reliance");
-		tempStock.setNumOfShares(5);
+		tempStock.setStockName("SBI");
+		tempStock.setNumOfShares(10);
 		tempStock.setSharePrice(1200);
 		stockAccount.add(tempStock);
 		tempStock = new Stock();
-		tempStock.setStockName("Idea");
-		tempStock.setNumOfShares(15);
-		tempStock.setSharePrice(200);
+		tempStock.setStockName("Tesla");
+		tempStock.setNumOfShares(18);
+		tempStock.setSharePrice(2000);
 		stockAccount.add(tempStock);
 		tempStock = new Stock();
-		tempStock.setStockName("SBI");
+		tempStock.setStockName("OnePlus");
 		tempStock.setNumOfShares(45);
 		tempStock.setSharePrice(100);
 		stockAccount.add(tempStock);
