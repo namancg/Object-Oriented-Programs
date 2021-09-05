@@ -1,30 +1,26 @@
 package com.bridgelabz.stockmanagement;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import com.bridgelabz.linkedlists.*;
 public class StockAccount {
-
 	private static ArrayList<Stock> stockAccount = new ArrayList<>();
-	private static ArrayList<CompanyShares> transactions = new ArrayList<>();
-
+	private static MyLinkedList transactions = new MyLinkedList();
 	public StockAccount() {
-
 		Stock tempStock = new Stock();
-
-		tempStock.setStockName("SBI");
-		tempStock.setNumOfShares(10);
+		tempStock.setStockName("Reliance");
+		tempStock.setNumOfShares(5);
 		tempStock.setSharePrice(1200);
 		stockAccount.add(tempStock);
 		tempStock = new Stock();
-		tempStock.setStockName("Tesla");
-		tempStock.setNumOfShares(18);
-		tempStock.setSharePrice(2000);
+		tempStock.setStockName("Idea");
+		tempStock.setNumOfShares(15);
+		tempStock.setSharePrice(200);
 		stockAccount.add(tempStock);
 		tempStock = new Stock();
-		tempStock.setStockName("OnePlus");
+		tempStock.setStockName("SBI");
 		tempStock.setNumOfShares(45);
 		tempStock.setSharePrice(100);
 		stockAccount.add(tempStock);
-
 	}
 	public void buy(int amount, String name) {
 		boolean flag = false;
@@ -36,17 +32,18 @@ public class StockAccount {
 				tempTransaction.setName(name);
 				tempTransaction.setNumOfShares(amount);
 				tempTransaction.setTransactionDateTime(dateObj);
-				transactions.add(tempTransaction);
+				MyNode<CompanyShares> tempNode = new MyNode<CompanyShares>(tempTransaction);
+				transactions.add(tempNode);
 				flag=true;
 			}
 		}
 		if(!flag)
 			System.out.println("Stock not found");
 	}
-	public void sell(int amount, String name) {
+	public void sell(int amount, String symbol) {
 		boolean flag = false;
 		for(Stock stock: stockAccount) {
-			if(stock.getStockName().equals(name)) {
+			if(stock.getStockName().equals(symbol)) {
 				flag=true;
 				if(stock.getNumOfShares()-amount < 0) 
 					System.out.println("No enough stocks to sell");
@@ -54,10 +51,11 @@ public class StockAccount {
 					stock.setNumOfShares(stock.getNumOfShares()-amount);
 					CompanyShares tempTransaction = new CompanyShares();
 					LocalDateTime dateObj = LocalDateTime.now();
-					tempTransaction.setName(name);
+					tempTransaction.setName(symbol);
 					tempTransaction.setNumOfShares(amount*-1);
 					tempTransaction.setTransactionDateTime(dateObj);
-					transactions.add(tempTransaction);
+					MyNode<CompanyShares> tempNode = new MyNode<CompanyShares>(tempTransaction);
+					transactions.add(tempNode);
 				}
 			}
 		}
@@ -70,15 +68,13 @@ public class StockAccount {
 			System.out.println(stock);
 			valueOfStock=calculateStockValue(stock);
 			totalValue+=valueOfStock;
-			System.out.println("Value of the Stock is "+valueOfStock);
+			System.out.println("The Value of Stock is "+valueOfStock);
 		}
 		System.out.println("Portfolio value: "+this.valueOf());
 
-		if(transactions.size() > 0) {
-			System.out.println("Transactions: ");
-			for(CompanyShares transaction: transactions) {
-				System.out.println(transaction);
-			}
+		if(transactions.getSize() > 0) {
+			System.out.println("All Transactions : ");
+			transactions.printMyNodes();
 		}
 	}
 	private double calculateStockValue(Stock stock) {
@@ -92,5 +88,4 @@ public class StockAccount {
 		}
 		return totalValue;
 	}
-
 }
