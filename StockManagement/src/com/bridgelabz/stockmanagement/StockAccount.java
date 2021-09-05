@@ -1,10 +1,10 @@
 package com.bridgelabz.stockmanagement;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import com.bridgelabz.linkedlists.*;
+import com.bridgelabz.stackandqueueproblem.*;
 public class StockAccount {
 	private static ArrayList<Stock> stockAccount = new ArrayList<>();
-	private static MyLinkedList transactions = new MyLinkedList();
+	private static MyQueue transactions = new MyQueue();
 	public StockAccount() {
 		Stock tempStock = new Stock();
 		tempStock.setStockName("SBI");
@@ -33,17 +33,17 @@ public class StockAccount {
 				tempTransaction.setNumOfShares(amount);
 				tempTransaction.setTransactionDateTime(dateObj);
 				MyNode<CompanyShares> tempNode = new MyNode<CompanyShares>(tempTransaction);
-				transactions.add(tempNode);
+				transactions.enqueue(tempNode);
 				flag=true;
 			}
 		}
 		if(!flag)
 			System.out.println("Stock not found");
 	}
-	public void sell(int amount, String symbol) {
+	public void sell(int amount, String name) {
 		boolean flag = false;
 		for(Stock stock: stockAccount) {
-			if(stock.getStockName().equals(symbol)) {
+			if(stock.getStockName().equals(name)) {
 				flag=true;
 				if(stock.getNumOfShares()-amount < 0) 
 					System.out.println("No enough stocks to sell");
@@ -51,11 +51,11 @@ public class StockAccount {
 					stock.setNumOfShares(stock.getNumOfShares()-amount);
 					CompanyShares tempTransaction = new CompanyShares();
 					LocalDateTime dateObj = LocalDateTime.now();
-					tempTransaction.setName(symbol);
+					tempTransaction.setName(name);
 					tempTransaction.setNumOfShares(amount*-1);
 					tempTransaction.setTransactionDateTime(dateObj);
 					MyNode<CompanyShares> tempNode = new MyNode<CompanyShares>(tempTransaction);
-					transactions.add(tempNode);
+					transactions.enqueue(tempNode);
 				}
 			}
 		}
@@ -74,7 +74,7 @@ public class StockAccount {
 
 		if(transactions.getSize() > 0) {
 			System.out.println("All Transactions : ");
-			transactions.printMyNodes();
+			transactions.printQueue();
 		}
 	}
 	private double calculateStockValue(Stock stock) {
